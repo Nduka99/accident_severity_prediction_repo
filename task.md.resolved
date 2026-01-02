@@ -1,0 +1,29 @@
+# Project: Accident Severity Prediction - Hybrid MLOps
+
+## Phase 1: Project Setup & Git Hygiene
+- [x] Configure [.gitignore](file:///c:/Users/nwagb/Desktop/MACHINE_LEARNING_ASSESSEMENT/us_accident_prediction_model/.gitignore) and [requirements.txt](file:///c:/Users/nwagb/Desktop/MACHINE_LEARNING_ASSESSEMENT/us_accident_prediction_model/requirements.txt)
+- [x] Create project structure (`backend/`, `frontend/`, `notebooks/`)
+- [x] Git initialization and initial push
+- [x] **Verification**: Notebooks renamed and committed
+
+## Phase 2: Backend Development (FastAPI)
+- [ ] Create `backend/main.py` (FastAPI app)
+- [ ] Define Pydantic data models for input validation
+- [ ] Implement model loading logic ([lgbm_tuned_model.pkl](file:///c:/Users/nwagb/Desktop/MACHINE_LEARNING_ASSESSEMENT/us_accident_prediction_model/lgbm_tuned_model.pkl))
+- [ ] Create prediction endpoint (`/predict`)
+- [ ] **Verification**: Test API locally with `curl`
+
+## Phase 3: Containerization (Docker)
+- [ ] Create `Dockerfile` for the backend
+- [ ] Build Docker image
+- [ ] **Verification**: Run container and test API
+
+## Phase 4: Frontend Development (Streamlit)
+- [ ] Create `frontend/app.py`
+- [ ] Implement user input form
+- [ ] Connect frontend to backend API
+- [ ] **Verification**: End-to-end test (UI -> API -> Model)
+
+## Phase 5: CI/CD Automation
+- [ ] Create `.github/workflows/ci.yml`
+- [ ] **Verification**: Push changes and verify GitHub Actions run
