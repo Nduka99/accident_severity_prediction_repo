@@ -1,0 +1,14 @@
+# Data Files
+*.csv
+*.zip
+# We want to commit the model as it is small (<100MB)
+# *.pkl 
+
+# System Files
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Environment
+.env
+venv/
