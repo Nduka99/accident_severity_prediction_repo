@@ -5,14 +5,16 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # 2.5 Install System Dependencies (GLib for LightGBM)
-RUN apt-get update && apt-get install -y libgomp1 && rm -rf /var/lib/apt/lists/*
+# 2.5 Install System Dependencies (GLib for LightGBM) & Upgrade System
+RUN apt-get update && apt-get upgrade -y && apt-get install -y libgomp1 && rm -rf /var/lib/apt/lists/*
 
-# 3. Copy Requirements first (for caching)
-COPY requirements.txt .
+# 3. Copy Requirements (Backend Only)
+COPY requirements-backend.txt .
 
 # 4. Install Dependencies
-# --no-cache-dir to keep image small
-RUN pip install --no-cache-dir -r requirements.txt
+# Upgrade pip to fix vulnerabilities and install backend deps
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements-backend.txt
 
 # 5. Copy the rest of the application
 COPY . .
