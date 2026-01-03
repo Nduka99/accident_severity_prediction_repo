@@ -19,6 +19,9 @@ BACKEND_URL = os.getenv("BACKEND_URL", "http://backend:8000")
 if not BACKEND_URL.startswith("http"):
     BACKEND_URL = f"https://{BACKEND_URL}"
 
+# Debug: Print to logs
+print(f"DEBUG: Configured Backend URL: {BACKEND_URL}")
+
 # --- Mappings (Frontend Label -> Backend Keyword) ---
 DESCRIPTION_MAP = {
     "Queueing Traffic": "Queueing traffic detected",
@@ -185,6 +188,6 @@ if submit_btn:
                 st.error(f"Error {response.status_code}: {response.text}")
                 
         except requests.exceptions.ConnectionError:
-            st.error("🚨 Connection Error: Could not connect to the backend. Is the prediction engine running?")
+            st.error(f"🚨 Connection Error: Could not connect to backend at `{BACKEND_URL}`. Is the backend running?")
         except Exception as e:
             st.error(f"An unexpected error occurred: {e}")
