@@ -36,8 +36,8 @@ API_SECRET = os.getenv("API_SECRET", "dev-secret")
 
 @app.middleware("http")
 async def validate_api_secret(request: Request, call_next):
-    # Allow health check without secret (so Render can verify app is up)
-    if request.url.path == "/health":
+    # Allow health check & root (Welcome) without secret (for Render/Uptime probes)
+    if request.url.path in ["/", "/health", "/docs", "/redoc"]:
          return await call_next(request)
          
     # Check for the Secret Token
@@ -74,7 +74,11 @@ async def startup_event():
         # In production, you might want to force exit here if models fail
         # raise e
 
-# 5. Health Check
+# 5. Health Check & Root
+@app.get("/")
+def root():
+    return {"message": "US Accident Severity Prediction API is Online", "docs": "Hidden"}
+
 @app.get("/health")
 def health_check():
     return {"status": "healthy", "model_loaded": ModelLoader._model is not None}
