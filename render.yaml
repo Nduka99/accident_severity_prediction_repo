@@ -20,7 +20,7 @@ services:
     name: accident-frontend
     env: docker
     plan: free
-    dockerContext: .
+    dockerContext: frontend
     dockerfilePath: frontend/Dockerfile
     envVars:
       - key: PYTHONUNBUFFERED
