@@ -1,8 +1,8 @@
 services:
-  # 1. Backend Service (Private - Security Isolation)
-  # This service is NOT accessible from the public internet.
-  # Only the Frontend can talk to it via the internal network.
-  - type: pserv
+  # 1. Backend Service (Public Web Service - Free Tier)
+  # Changed from 'pserv' to 'web' because Private Services require a paid plan.
+  # Security is handled via CORS and TrustedHost middleware in the code.
+  - type: web
     name: accident-backend
     env: docker
     plan: free
@@ -27,6 +27,6 @@ services:
         value: 1
       - key: BACKEND_URL
         fromService:
-          type: pserv
+          type: web
           name: accident-backend
-          property: hostport
+          property: url
