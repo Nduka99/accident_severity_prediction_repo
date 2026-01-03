@@ -15,6 +15,10 @@ st.set_page_config(
 # Environment Variables
 BACKEND_URL = os.getenv("BACKEND_URL", "http://backend:8000")
 
+# Render 'host' property returns domain only, so we must ensure schema
+if not BACKEND_URL.startswith("http"):
+    BACKEND_URL = f"https://{BACKEND_URL}"
+
 # --- Mappings (Frontend Label -> Backend Keyword) ---
 DESCRIPTION_MAP = {
     "Queueing Traffic": "Queueing traffic detected",
