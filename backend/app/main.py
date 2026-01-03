@@ -1,4 +1,5 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 import time
@@ -28,6 +29,24 @@ app.add_middleware(
     TrustedHostMiddleware, 
     allowed_hosts=["localhost", "127.0.0.1", "*.onrender.com", "backend"]
 )
+
+# 2.5 Security Middleware: Shared Secret Authentication
+# Validate that the caller has the correct "Backstage Pass" password.
+API_SECRET = os.getenv("API_SECRET", "dev-secret")
+
+@app.middleware("http")
+async def validate_api_secret(request: Request, call_next):
+    # Allow health check without secret (so Render can verify app is up)
+    if request.url.path == "/health":
+         return await call_next(request)
+         
+    # Check for the Secret Token
+    client_secret = request.headers.get("X-Service-Token")
+    if client_secret != API_SECRET:
+         # Reject request: 403 Forbidden
+         return JSONResponse(status_code=403, content={"detail": "Unauthorized: Missing or Invalid Service Token"})
+    
+    return await call_next(request)
 
 # 3. CORS (Security: Restrict to Frontend)
 # Only allow the specific Frontend URL to make requests
@@ -100,8 +119,10 @@ def predict_severity(input_data: AccidentInput):
         )
 
     except Exception as e:
-        print(f"Prediction Error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        # Log the real error to the secure server console
+        print(f"CRITICAL PROCESSING ERROR: {e}")
+        # Return a generic, safe error to the client
+        raise HTTPException(status_code=500, detail="Internal Processing Error. Please try again.")
 
 if __name__ == "__main__":
     # Local Dev Run

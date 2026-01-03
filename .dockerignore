@@ -13,6 +13,11 @@ venv/
 .env
 .ipynb_checkpoints/
 
+# Secrets (Added during Security Audit)
+*.pem
+*.key
+*.cer
+
 # Large Data Files (Crucial to exclude these!)
 *.csv
 *.zip

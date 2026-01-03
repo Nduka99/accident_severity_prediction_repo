@@ -148,9 +148,17 @@ if submit_btn:
     #     st.json(payload)
         
     # 2. Call API
+    # 2.5 Security: Retrieve Backend "Backstage Pass" to authorize request
+    API_SECRET = os.getenv("API_SECRET", "dev-secret")
+    headers = {"X-Service-Token": API_SECRET}
+
     with st.spinner("Analyzing accident data..."):
         try:
-            response = requests.post(f"{BACKEND_URL}/predict", json=payload)
+            response = requests.post(
+                f"{BACKEND_URL}/predict", 
+                json=payload,
+                headers=headers # <--- Send the password!
+            )
             
             if response.status_code == 200:
                 result = response.json()
