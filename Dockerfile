@@ -19,9 +19,14 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # 5. Copy the rest of the application
 COPY . .
 
-# 6. Expose the port
+# 6. Security: Create and Switch to Non-Root User
+RUN addgroup --system appgroup && adduser --system --group appuser && \
+    chown -R appuser:appgroup /app
+USER appuser
+
+# 7. Expose the port (Documenting default, but Render ignores this)
 EXPOSE 8000
 
-# 7. Run the application
-# We use the list format for CMD
-CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# 8. Run the application
+# Use sh -c to expand environment variables
+CMD ["sh", "-c", "uvicorn backend.app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

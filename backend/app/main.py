@@ -1,8 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 import time
 import uvicorn
 import numpy as np
+import os
 
 # Internal Imports
 from .schemas import AccidentInput, PredictionOutput
@@ -10,23 +12,36 @@ from .config import settings
 from .services.model_loader import ModelLoader
 from .services.feature_engineering import feature_engine
 
-# 1. Initialize App
+# 1. Initialize App (Security: Disable Docs in Prod)
+# We disable /docs and /redoc to prevent attackers from easily mapping the API
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.VERSION,
-    description="API for predicting US Accident Severity (LightGBM)"
+    description="API for predicting US Accident Severity (LightGBM)",
+    docs_url=None, 
+    redoc_url=None
 )
 
-# 2. CORS (Allow Streamlit Frontend)
+# 2. Trusted Host Middleware (Security: Prevent Host Header Attacks)
+# Only allow requests addressed to these domains
+app.add_middleware(
+    TrustedHostMiddleware, 
+    allowed_hosts=["localhost", "127.0.0.1", "*.onrender.com", "backend"]
+)
+
+# 3. CORS (Security: Restrict to Frontend)
+# Only allow the specific Frontend URL to make requests
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:8501") # Default for local dev
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, restrict this to frontend URL
+    allow_origins=[frontend_url], 
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["POST"], # Only allow POST (for prediction)
     allow_headers=["*"],
 )
 
-# 3. Startup Event (The "Warmup")
+# 4. Startup Event (The "Warmup")
 @app.on_event("startup")
 async def startup_event():
     """
@@ -40,12 +55,12 @@ async def startup_event():
         # In production, you might want to force exit here if models fail
         # raise e
 
-# 4. Health Check
+# 5. Health Check
 @app.get("/health")
 def health_check():
     return {"status": "healthy", "model_loaded": ModelLoader._model is not None}
 
-# 5. Prediction Endpoint
+# 6. Prediction Endpoint
 @app.post("/predict", response_model=PredictionOutput)
 def predict_severity(input_data: AccidentInput):
     """
@@ -90,4 +105,5 @@ def predict_severity(input_data: AccidentInput):
 
 if __name__ == "__main__":
     # Local Dev Run
-    uvicorn.run("backend.app.main:app", host="0.0.0.0", port=8000, reload=True)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("backend.app.main:app", host="0.0.0.0", port=port, reload=False) # Reload False for Prod safety
