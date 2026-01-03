@@ -43,15 +43,7 @@ WEATHER_OPTIONS = [
 # --- UI Layout ---
 
 # Sidebar
-with st.sidebar:
-    st.header("Configuration")
-    st.markdown("---")
-    st.info(f"Connected to: `{BACKEND_URL}`")
-    st.markdown("### Model Details")
-    st.caption("Model: LightGBM (Tuned)")
-    st.caption("Scaler: RobustScaler")
-    st.markdown("---")
-    st.markdown("Developed by **Antigravity**")
+# Sidebar (Removed by request)
 
 # Main Column
 st.title("🚦 US Accident Severity Predictor")
