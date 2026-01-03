@@ -3,10 +3,19 @@ version: '3.8'
 services:
   backend:
     build: .
-    ports:
-      - "8000:8000"
     volumes:
       - ./backend/model_artifacts:/app/backend/model_artifacts
     environment:
       - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8501:8501"
+    environment:
+      - BACKEND_URL=http://backend:8000
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - backend
     restart: unless-stopped

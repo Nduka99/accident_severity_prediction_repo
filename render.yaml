@@ -1,0 +1,32 @@
+services:
+  # 1. Backend Service (Private - Security Isolation)
+  # This service is NOT accessible from the public internet.
+  # Only the Frontend can talk to it via the internal network.
+  - type: pserv
+    name: accident-backend
+    env: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: PORT
+        value: 8000
+
+  # 2. Frontend Service (Public - Web Access)
+  # This is the only entry point for users.
+  - type: web
+    name: accident-frontend
+    env: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: frontend/Dockerfile
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: BACKEND_URL
+        fromService:
+          type: pserv
+          name: accident-backend
+          property: hostport
