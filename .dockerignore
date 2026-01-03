@@ -1,0 +1,30 @@
+# Version Control
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.ipynb_checkpoints/
+
+# Large Data Files (Crucial to exclude these!)
+*.csv
+*.zip
+*.rar
+analysis_output.txt
+text_features.txt
+
+# Notebooks (Not needed for production backend)
+notebooks/
+
+# Frontend (If kept separate)
+frontend/
+
+# VS Code
+.vscode/

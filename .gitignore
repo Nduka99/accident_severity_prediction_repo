@@ -1,6 +1,7 @@
 # Data Files
 *.csv
 *.zip
+
 # We want to commit the model as it is small (<100MB)
 # *.pkl 
 
@@ -12,3 +13,15 @@ __pycache__/
 # Environment
 .env
 venv/
+
+# Antigravity/Agent Artifacts (Do not push)
+implementation_plan.md
+implementation_plan.md.resolved
+task.md
+task.md.resolved
+*.resolved
+.gemini/
+
+# Large Output Files
+analysis_output.txt
+text_features.txt
