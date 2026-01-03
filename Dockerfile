@@ -22,6 +22,10 @@ COPY . .
 # 6. Security: Create and Switch to Non-Root User
 RUN addgroup --system appgroup && adduser --system --group appuser && \
     chown -R appuser:appgroup /app
+
+# Fix: Set HOME to /app to allow Matplotlib/Sklearn caching
+ENV HOME=/app
+
 USER appuser
 
 # 7. Expose the port (Documenting default, but Render ignores this)

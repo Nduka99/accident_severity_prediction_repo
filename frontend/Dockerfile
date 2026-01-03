@@ -17,6 +17,10 @@ COPY . .
 # 4. Security: Create and Switch to Non-Root User
 RUN addgroup --system appgroup && adduser --system --group appuser && \
     chown -R appuser:appgroup /app
+
+# Fix: Set HOME to a writable directory so apps (Streamlit/Matplotlib) can write configs
+ENV HOME=/app
+
 USER appuser
 
 # 5. Expose Streamlit Port
