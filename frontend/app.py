@@ -51,8 +51,7 @@ WEATHER_OPTIONS = [
 st.title("US Accident Severity Predictor")
 st.markdown("""
 This application predicts the severity of a traffic accident based on environmental and road conditions.
-**Severity 1**: Non-Severe (Minor) | **Severity 0**: Severe (Major)
-""")
+    """)
 st.markdown("---")
 
 # Form
@@ -88,6 +87,11 @@ with st.form("prediction_form"):
     st.header("3. Infrastructure")
     with st.expander("Road Features"):
         st.write("Select features present at the accident site:")
+        
+        # New Feature: Is_Highway
+        road_type = st.radio("Infrastructure Type", ["Local Road", "Highway"], horizontal=True)
+        is_highway = True if road_type == "Highway" else False
+        
         poi_cols = st.columns(4)
         
         # POI Variables
@@ -119,7 +123,7 @@ if submit_btn:
     payload = {
         "Start_Time": combined_dt.strftime("%Y-%m-%d %H:%M:%S"),
         "Description": final_desc,
-        "Street": "Simulated St", # Placeholder, not used in model logic but required by schema? Schema says Optional.
+        "Is_Highway": is_highway,
         "Weather_Condition": weather_condition,
         "Temperature(F)": temp,
         "Humidity(%)": humidity,

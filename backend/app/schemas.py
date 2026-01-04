@@ -11,7 +11,7 @@ class AccidentInput(BaseModel):
     
     # --- 3. Location / Infrastructure ---
     # Used for Road_Label logic (Highway vs Local)
-    Street: Optional[str] = Field(None, description="Street name (used to derive Is_Highway)")
+    Is_Highway: bool = Field(False, description="True if accident is on a highway (I-95, US-1, etc.)")
     
     # --- 4. Weather & Environmental (Core Features) ---
     # Note: We use specific names matching training data

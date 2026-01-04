@@ -10,7 +10,7 @@ class FeatureEngineer:
     FEATURE_ORDER = [
         'Temperature(F)', 'Wind_Chill(F)', 'Humidity(%)', 'Pressure(in)', 'Visibility(mi)', 'Wind_Speed(mph)', 
         'Amenity', 'Crossing', 'Give_Way', 'Junction', 'No_Exit', 'Railway', 'Roundabout', 'Station', 'Stop', 
-        'Traffic_Calming', 'Traffic_Signal', 'Turning_Loop', 'Is_Night', 
+        'Traffic_Calming', 'Traffic_Signal', 'Turning_Loop', 'Is_Night', 'Is_Highway', 
         'Desc_Queue', 'Desc_Heavy', 'Desc_Blocked', 'Desc_Ramp', 'Desc_Accident', 'Desc_Hazard', 'Desc_Caution', 'Desc_Fire', 
         'Hour_Sin', 'Hour_Cos', 'Month_Sin', 'Month_Cos', 'Log_Precipitation(in)', 
         'Weather_Simplified_Cloudy', 'Weather_Simplified_Fog/Obscured', 'Weather_Simplified_Rain', 'Weather_Simplified_Snow/Ice', 'Weather_Simplified_Storm', 
