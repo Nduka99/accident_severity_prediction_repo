@@ -1,16 +1,16 @@
-# 🚦 US Accident Severity Prediction System
+# US Accident Severity Prediction System
 
 [![Deployment Status](https://img.shields.io/badge/Deployment-Live%20%26%20Secured-success?style=for-the-badge&logo=render)](https://accident-frontend.onrender.com/)
 [![Python](https://img.shields.io/badge/Python-3.9-blue?style=for-the-badge&logo=python)](https://www.python.org/)
 [![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker)](https://www.docker.com/)
 
-**[🚀 Live Demo: https://accident-frontend.onrender.com/](https://accident-frontend.onrender.com/)**
+**[ Live Demo: https://accident-frontend.onrender.com/](https://accident-frontend.onrender.com/)**
 
 A robust, academically grounded Machine Learning pipeline and secured microservices architecture designed to predict traffic accident severity in real-time. This project implements a **Hierarchical Imputation Framework** and **Cost-Sensitive Gradient Boosting** to address the systematic sensor outages and extreme class imbalance inherent in US traffic data.
 
 ---
 
-## 📖 Table of Contents
+## Table of Contents
 1.  [Methodology (Machine Learning)](#-methodology-machine-learning)
     *   [Data Forensics & Preprocessing](#1-data-forensics--preprocessing)
     *   [Hierarchical Imputation Strategy](#2-hierarchical-imputation-strategy)
@@ -23,8 +23,8 @@ A robust, academically grounded Machine Learning pipeline and secured microservi
 
 ---
 
-## 🧠 Methodology (Machine Learning)
-*Based on the research findings from `US_ACC_REPORT7_MSc_Polished.docx`.*
+## Methodology (Machine Learning)
+
 
 The core intelligence is built upon the **[US Accidents Dataset (2016-2023)](https://www.kaggle.com/datasets/sobhanmoosavi/us-accidents)**. Our approach moves beyond standard accuracy metrics to prioritize **Recall (Safety)**, ensuring that life-threatening incidents are not misclassified as minor events.
 
@@ -55,16 +55,16 @@ We redefined the problem from a 4-class ordinal regression to a **Binary Classif
 
 ---
 
-## 🏗 System Architecture
+## System Architecture
 
 The application is decoupled into two autonomous microservices ensuring scalability and isolation.
 
-### 🖥️ Frontend (The Face)
+### Frontend (The Face)
 *   **Tech Stack**: Streamlit (Python 3.9).
 *   **Role**: Renders a reactive User Interface, validates inputs against the specific schema required by the model, and visualizes prediction probabilities.
 *   **Interaction**: Communicates with the Backend via REST API, handling connection timeouts gracefully.
 
-### ⚙️ Backend (The Brain)
+### Backend (The Brain)
 *   **Tech Stack**: FastAPI + Uvicorn.
 *   **Role**: Hosts the trained LightGBM model (`lgbm_tuned_model.pkl`) and RobustScaler artifacts.
 *   **Efficiency**: Features `numpy`-accelerated vectorization for sub-50ms inference times.
@@ -74,7 +74,7 @@ The application is decoupled into two autonomous microservices ensuring scalabil
 
 ---
 
-## 🛡 Security & Hardening
+## Security & Hardening
 
 This project implements a **"Defense in Depth"** strategy suitable for public cloud deployment.
 
@@ -92,7 +92,7 @@ To protect the publicly exposed Backend API from unauthorized access:
 
 ---
 
-## ☁ Deployment Strategy
+## Deployment Strategy
 **Platform**: [Render.com](https://render.com) (Cloud Container PaaS)
 
 *   **Infrastructure as Code (IaC)**: The entire deployment topology is defined declaratively in `render.yaml`.
@@ -103,7 +103,7 @@ To protect the publicly exposed Backend API from unauthorized access:
 
 ---
 
-## 💻 How to Run Locally
+## How to Run Locally
 
 Replicate the production environment entirely on your machine using Docker.
 
@@ -125,4 +125,4 @@ Replicate the production environment entirely on your machine using Docker.
     *   Backend Docs: `http://localhost:8000/docs` (Note: Docs are hidden in Production).
 
 ---
-*Based on the MSc Dissertation: "Engineering Road Safety: A Machine Learning Approach to Predicting Traffic Incident Lethality"*
+*Based on the MSc AI module assessment: "Engineering Road Safety: A Machine Learning Approach to Predicting Traffic Incident Lethality"*
