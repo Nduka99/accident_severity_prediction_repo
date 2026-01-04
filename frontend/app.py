@@ -3,6 +3,8 @@ import requests
 import json
 import os
 from datetime import datetime
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 # --- Configuration ---
 st.set_page_config(
@@ -20,6 +22,20 @@ if not BACKEND_URL.startswith("http"):
 
 # Debug: Print to logs
 print(f"DEBUG: Configured Backend URL: {BACKEND_URL}")
+
+# Helper: Robust Session
+def get_session():
+    session = requests.Session()
+    retry = Retry(
+        total=5,  # Retry 5 times
+        backoff_factor=1,  # Wait 1s, 2s, 4s, 8s, 16s
+        status_forcelist=[500, 502, 503, 504],  # Retry on these errors
+        allowed_methods=["POST"]
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("http://", adapter)
+    session.mount("https://", adapter)
+    return session
 
 # --- Mappings (Frontend Label -> Backend Keyword) ---
 DESCRIPTION_MAP = {
@@ -160,10 +176,14 @@ if submit_btn:
 
     with st.spinner("Analyzing accident data..."):
         try:
-            response = requests.post(
+            # Create a robust session
+            session = get_session()
+            
+            response = session.post(
                 f"{BACKEND_URL}/predict", 
                 json=payload,
-                headers=headers # <--- Send the password!
+                headers=headers,
+                timeout=30 # Wait up to 30s per try
             )
             
             if response.status_code == 200:
