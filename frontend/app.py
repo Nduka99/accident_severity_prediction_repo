@@ -27,7 +27,7 @@ print(f"DEBUG: Configured Backend URL: {BACKEND_URL}")
 def get_session():
     session = requests.Session()
     retry = Retry(
-        total=5,  # Retry 5 times
+        total=8,  # Retry 8 times (covers ~60s cold start)
         backoff_factor=1,  # Wait 1s, 2s, 4s, 8s, 16s
         status_forcelist=[500, 502, 503, 504],  # Retry on these errors
         allowed_methods=["POST"]
