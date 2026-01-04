@@ -7,7 +7,6 @@ from datetime import datetime
 # --- Configuration ---
 st.set_page_config(
     page_title="US Accident Severity Prediction",
-    page_icon="🚦",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -49,7 +48,7 @@ WEATHER_OPTIONS = [
 # Sidebar (Removed by request)
 
 # Main Column
-st.title("🚦 US Accident Severity Predictor")
+st.title("US Accident Severity Predictor")
 st.markdown("""
 This application predicts the severity of a traffic accident based on environmental and road conditions.
 **Severity 1**: Non-Severe (Minor) | **Severity 0**: Severe (Major)
@@ -188,6 +187,6 @@ if submit_btn:
                 st.error(f"Error {response.status_code}: {response.text}")
                 
         except requests.exceptions.ConnectionError:
-            st.error(f"🚨 Connection Error: Could not connect to backend at `{BACKEND_URL}`. Is the backend running?")
+            st.error(f"[Error] Connection Error: Could not connect to backend at `{BACKEND_URL}`. Is the backend running?")
         except Exception as e:
             st.error(f"An unexpected error occurred: {e}")

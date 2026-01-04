@@ -12,6 +12,7 @@ env/
 venv/
 .env
 .ipynb_checkpoints/
+.us_accident_model/
 
 # Secrets (Added during Security Audit)
 *.pem
